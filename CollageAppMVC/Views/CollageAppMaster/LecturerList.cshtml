@@ -1,0 +1,30 @@
+﻿<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Sr.No</th>
+            <th>Lecturer</th>
+            <th>Department</th>
+            <th>Edit - Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ var i = 1; }
+        @foreach (var lecturer in (List<CollageAppMVC.Models.LecturerViewModel>)ViewBag.Lecturers)
+            {
+            <tr>
+                <td>
+                    @i.ToString()
+                </td>
+                <td>@lecturer.LecturerName</td>
+                <td>@lecturer.DepartmentName</td>
+                <td>
+                    <button class="btn btn-primary" id="editLecturer" onclick="editLecturer(@lecturer.LecturerId)">Edit</button>
+                    <button class="btn btn-primary" id="deleteLecturer" onclick="deleteLecturer(@lecturer.LecturerId)">Delete</button>
+                </td>
+            </tr>
+
+            i++;
+        }
+    </tbody>
+</table>
+@Html.Partial("DataPagination")

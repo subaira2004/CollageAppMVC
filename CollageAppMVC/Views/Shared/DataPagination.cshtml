@@ -1,0 +1,90 @@
+﻿@*
+    ViewBag.DataPagination
+    //javascript function for page navigation
+    goToPageNav(url, goToPage, NoOfDataPerPage, callBackfunction)
+*@
+@{
+    var dataPagination = (CollageAppMVC.Models.DataPagination)ViewBag.DataPagination;
+}
+
+@if (dataPagination.IsShowPageNavigation)
+{
+    var lastPageClass = dataPagination.CurrentPage == dataPagination.TotalPages ? "disabled" : "";
+    var fisrtPageClass = dataPagination.CurrentPage == 1 ? "disabled" : "";
+    var currentPageClass = "";
+    var loopTrough = true;
+    var startPage = 1;
+    if (dataPagination.CurrentPage > 3 && dataPagination.TotalPages > 5)
+    {
+        startPage = dataPagination.CurrentPage - 2;
+        if (dataPagination.CurrentPage >= dataPagination.TotalPages - 2)
+        {
+            startPage = dataPagination.TotalPages - 4;
+        }
+    }
+    var previousPage = 1;
+    var nextPage = dataPagination.TotalPages;
+
+    <ul class="pagination">
+        <li class="@fisrtPageClass" title="go to first page">
+            <a href="#" onclick="return goToPageNav('@dataPagination.NavPageUrl',1,@dataPagination.NoOfDataPerPage,@dataPagination.JSCallBackFunctionName)"><<</a>
+        </li>
+        @if (dataPagination.CurrentPage > 2)
+        {
+            previousPage = dataPagination.CurrentPage - 1;
+        }
+        <li class="@fisrtPageClass" title="go to previous page">
+            <a href="#" onclick="return goToPageNav('@dataPagination.NavPageUrl',@previousPage,@dataPagination.NoOfDataPerPage,@dataPagination.JSCallBackFunctionName)"><</a>
+        </li>
+        @if (startPage > 1)
+        {
+
+            var PreviousSetPage = startPage - 1;
+
+            <li>
+                <a href="#" title="go to previous set of data" onclick="return goToPageNav('@dataPagination.NavPageUrl',@PreviousSetPage,@dataPagination.NoOfDataPerPage,@dataPagination.JSCallBackFunctionName)">...</a>
+            </li>
+
+        }
+        @for (var i = startPage; loopTrough; i++)
+        {
+            currentPageClass = dataPagination.CurrentPage == i ? "active" : "";
+
+            <li class="@currentPageClass">
+                <a href="#" onclick="return goToPageNav('@dataPagination.NavPageUrl',@i,@dataPagination.NoOfDataPerPage,@dataPagination.JSCallBackFunctionName)">@i</a>
+            </li>
+
+            loopTrough = !(i == dataPagination.TotalPages || i == (startPage + 4));
+        }
+        @if (dataPagination.CurrentPage < dataPagination.TotalPages)
+        {
+            nextPage = dataPagination.CurrentPage + 1;
+            if (startPage + 4 < dataPagination.TotalPages)
+            {
+                var nextSetPage = startPage + 5;
+
+                <li>
+                    <a href="#" title="go to next set of data" onclick="return goToPageNav('@dataPagination.NavPageUrl',@nextSetPage,@dataPagination.NoOfDataPerPage,@dataPagination.JSCallBackFunctionName)">...</a>
+                </li>
+            }
+        }
+        <li class="@lastPageClass" title="go to next page">
+            <a href="#" onclick="return goToPageNav('@dataPagination.NavPageUrl',@nextPage,@dataPagination.NoOfDataPerPage,@dataPagination.JSCallBackFunctionName)">></a>
+        </li>
+        <li class="@lastPageClass" title="go to last page">
+            <a href="#" onclick="return goToPageNav('@dataPagination.NavPageUrl',@dataPagination.TotalPages,@dataPagination.NoOfDataPerPage,@dataPagination.JSCallBackFunctionName)">>></a>
+        </li>
+    </ul>
+    <p>
+        <span>
+            Total no. of reords <strong>@dataPagination.TotalNoOfData</strong>.&nbsp;
+        </span>
+        <span>
+            Page @dataPagination.CurrentPage of @dataPagination.TotalPages. Go to <input type="text" id="goToPageNumber" value="@dataPagination.CurrentPage" /><button class="btn btn-default" onclick="goToPageNumber('@dataPagination.NavPageUrl',@dataPagination.NoOfDataPerPage,@dataPagination.JSCallBackFunctionName)">Go</button>
+        </span>
+        <span>
+            No. of records per page<input type="text" id="dataPerPage" value="@dataPagination.NoOfDataPerPage" /><button class="btn btn-default" onclick="changeDataPerPage('@dataPagination.NavPageUrl',@dataPagination.NoOfDataPerPage,@dataPagination.JSCallBackFunctionName)">Set</button>
+        </span>
+    </p>
+
+}

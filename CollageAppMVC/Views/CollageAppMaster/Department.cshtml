@@ -1,0 +1,24 @@
+﻿@model CollageAppMVC.Models.Department
+
+
+<h3>Department</h3>
+<div class="row">
+    @using (Ajax.BeginForm("Department", "CollageAppMaster", new AjaxOptions { AllowCache = false, UpdateTargetId = "departmentListOutLet", InsertionMode = InsertionMode.Replace, HttpMethod = "POST", OnSuccess = "onSuccessDepartmentSubmit" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.HiddenFor(m => m.DepartmentId)
+            @Html.LabelFor(m => m.Name, new { @for = "DepartmentName" })
+            @Html.TextBoxFor(m => m.Name, new { @id = "DepartmentName", @name = "DepartmentName", @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Name)
+        </div>
+        <input type="submit" id="submit" value="Submit" class="btn btn-default" />
+        <button class="btn btn-danger" id="cancel" onclick="return clrDept()">Cancel</button>
+    }
+    <br />
+</div>
+<div class="row" id="departmentListOutLet">
+    @Html.Partial("DepartmentList")
+</div>
+

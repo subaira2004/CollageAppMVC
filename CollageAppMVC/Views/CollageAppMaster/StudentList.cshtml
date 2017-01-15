@@ -1,0 +1,52 @@
+﻿<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Sr.No</th>
+            <th>Student</th>
+            <th>Department</th>
+            <th>Section</th>
+            <th>Date Of Join</th>
+            <th>Date Of Graduation</th>
+            <th>Edit - Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ var i = 1; }
+        @foreach (var student in (List<CollageAppMVC.Models.StudentViewModel>)ViewBag.Students)
+            {
+            <tr>
+                <td>
+                    @i.ToString()
+                </td>
+                <td>@student.StudentName</td>
+                <td>@student.DepartmentName</td>
+                <td>@student.SectionName</td>
+                @if (student.DateOfJoin.HasValue)
+                {
+                    <td>@student.DateOfJoin</td>
+                }
+                else
+                {
+                    <td>--</td>
+                }
+                @if (student.DateofGraduaton.HasValue)
+                {
+                    <td>@student.DateofGraduaton</td>
+                }
+                else
+                {
+                    <td>--</td>
+                }
+                <td>
+                    <button class="btn btn-primary" id="editStudent" onclick="editStudent(@student.StudentId)">Edit</button>
+                    <button class="btn btn-primary" id="deleteStudent" onclick="deleteStudent(@student.StudentId)">Delete</button>
+                </td>
+            </tr>
+
+            i++;
+        }
+    </tbody>
+</table>
+@Html.Partial("DataPagination")
+
+

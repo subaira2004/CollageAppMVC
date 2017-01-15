@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-3">
+        <ul class="nav nav-tabs tabs-left nav-stacked">
+            <li class="active">
+                @Ajax.ActionLink("Department", "Department", "CollageAppMaster", new AjaxOptions { UpdateTargetId = "navOutlet", InsertionMode = InsertionMode.Replace, HttpMethod = "GET", OnSuccess = "onSuccessNavigation('navDeparment')", OnBegin = "onBeginNavigation()" }, htmlAttributes: new { @id = "navDeparment" })
+            </li>
+            <li>
+                @Ajax.ActionLink("Section", "Section", "CollageAppMaster", new AjaxOptions { UpdateTargetId = "navOutlet", InsertionMode = InsertionMode.Replace, HttpMethod = "GET", OnSuccess = "onSuccessNavigation('navSection')", OnBegin = "onBeginNavigation()" }, htmlAttributes: new { @id = "navSection" })
+            </li>
+            <li>
+                @Ajax.ActionLink("Student", "Student", "CollageAppMaster", new AjaxOptions { UpdateTargetId = "navOutlet", InsertionMode = InsertionMode.Replace, HttpMethod = "GET", OnSuccess = "onSuccessNavigation('navStudent')", OnBegin = "onBeginNavigation()" }, htmlAttributes: new { @id = "navStudent" })
+            </li>
+            <li>
+                @Ajax.ActionLink("Lecturer", "Lecturer", "CollageAppMaster", new AjaxOptions { UpdateTargetId = "navOutlet", InsertionMode = InsertionMode.Replace, HttpMethod = "GET", OnSuccess = "onSuccessNavigation('navLecturer')", OnBegin = "onBeginNavigation()" }, htmlAttributes: new { @id = "navLecturer" })
+            </li>
+        </ul>
+    </div>
+    <div class="col-lg-9">
+        <div class="loaderFrame hide">
+            <p class="loader"></p>
+        </div>
+        <div class="row" id="navOutlet">
+            @Html.Partial("Department")
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
+    @Scripts.Render("~/Scripts/Master.js")
+    @Scripts.Render("~/Scripts/Department.js")
+    @Scripts.Render("~/Scripts/Section.js")
+    @Scripts.Render("~/Scripts/Student.js")
+    @Scripts.Render("~/Scripts/Lecturer.js")
+    @Scripts.Render("~/Scripts/Data_Pagination.js")
+}
+

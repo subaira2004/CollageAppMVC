@@ -1,0 +1,29 @@
+﻿@model CollageAppMVC.Models.Lecturer
+<h4>Lecturer</h4>
+<div class="row">
+    @using (Ajax.BeginForm("Lecturer", "CollageAppMaster", new AjaxOptions { AllowCache = false, HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "lecturerListOutLet", OnSuccess = "onSuccessLecturerSubmit" }))
+    {
+        @Html.AntiForgeryToken()
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.HiddenFor(m => m.LecturerId)
+            @Html.LabelFor(model => model.DepartmentId, htmlAttributes: new { @for = "DepartmentId" })
+            @Html.DropDownListFor(m => m.DepartmentId, (SelectList)ViewBag.DepartmentsDropDownList, htmlAttributes: new { @id = "DepartmentId", @name = "DepartmentId", @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @for = "Name" })
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @id = "Name", @name = "Name", @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+        </div>
+
+        <input type="submit" name="submit" value="submit" class="btn btn-default" />
+        <button class="btn btn-danger" id="cancel" onclick="return clrLecturer()">Cancel</button>
+    }
+    <br />
+</div>
+<div class="row" id="lecturerListOutLet">
+    @Html.Partial("LecturerList")
+</div>

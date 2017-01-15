@@ -1,0 +1,44 @@
+﻿@model CollageAppMVC.Models.StudentViewModel
+<h4>Student</h4>
+<div class="row">
+    @using (Ajax.BeginForm("Student", "CollageAppMaster", new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "studentListOutLet", OnSuccess = "onSuccessStudentSubmit", AllowCache = false }))
+    {
+        @Html.AntiForgeryToken()
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(m => m.StudentId)
+        <div class="form-group">
+            @Html.LabelFor(model => model.StudentName, htmlAttributes: new { @for = "StudentName" })
+            @Html.EditorFor(model => model.StudentName, new { htmlAttributes = new { @id = "StudentName", @name = "StudentName", @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.StudentName, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.DepartmentId, htmlAttributes: new { @for = "DepartmentId" })
+            @Html.DropDownListFor(m => m.DepartmentId, (SelectList)ViewBag.DepartmentsDropDownList, htmlAttributes: new { @id = "DepartmentId", @name = "DepartmentId", @class = "form-control", @onchange = "getSectionsByDepartmentId(this.value,0)" })
+            @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.SectionId, htmlAttributes: new { @for = "SectionId" })
+            @Html.DropDownListFor(m => m.SectionId, (SelectList)ViewBag.SectionsDropDownList, htmlAttributes: new { @id = "SectionId", @name = "SectionId", @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.SectionId, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.DateOfJoin, htmlAttributes: new { @for = "DateOfJoin" })
+            @Html.EditorFor(model => model.DateOfJoin, new { htmlAttributes = new { @id = "DateOfJoin", @type = "Date", @name = "DateOfJoin", @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.DateOfJoin, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.DateofGraduaton, htmlAttributes: new { @for = "DateofGraduaton" })
+
+            @Html.EditorFor(model => model.DateofGraduaton, new { htmlAttributes = new { @id = "DateofGraduaton", @type = "Date", @name = "DateofGraduaton", @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.DateofGraduaton, "", new { @class = "text-danger" })
+        </div>
+        <input type="submit" name="submit" value="Submit" class="btn btn-default" />
+        <button class="btn btn-danger" id="cancel" onclick="return clrStudent()">Cancel</button>
+    }
+    <br />
+</div>
+
+<div class="row" id="studentListOutLet">
+    @Html.Partial("StudentList")
+</div>
